@@ -58,6 +58,10 @@ if (USE_HEADLESS) {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.disable('etag');
+app.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+
+
 // Middlewares
 app.use(helmet());
 app.use(compression());
@@ -535,47 +539,41 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date(), uptime: process.uptime() });
 });
 
+
+
+const escapeRegExp = (s='') => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 app.get('/api/jobs', async (req, res) => {
   try {
-    const { page = 1, limit = 50, search, source, location, company, skills } = req.query;
-    const query = { isActive: true };
+    const page  = Math.max(1, parseInt(req.query.page || '1', 10));
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit || '50', 10)));
+    const search = String(req.query.search || '').trim();
+    const source = String(req.query.source || '').trim(); // linkedin|indeed|naukri
 
+    const filter = { isActive: true };
+    if (source) filter.source = new RegExp(`^${escapeRegExp(source)}$`, 'i');
     if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: 'i' } },
+      filter.$or = [
+        { title:   { $regex: search, $options: 'i' } },
         { company: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
+        { skills:  { $elemMatch: { $regex: search, $options: 'i' } } }
       ];
     }
-    if (source) query.source = source;
-    if (location) query.location = { $regex: location, $options: 'i' };
-    if (company) query.company = { $regex: company, $options: 'i' };
-    if (skills) query.skills = { $in: String(skills).split(',') };
 
-    const skip = (Number(page) - 1) * Number(limit);
-    const jobs = await Job.find(query).sort({ scrapedAt: -1 }).skip(skip).limit(Number(limit));
-    const total = await Job.countDocuments(query);
+    const skip = (page - 1) * limit;
+    const [jobs, total] = await Promise.all([
+      Job.find(filter).sort({ postedDate: -1, scrapedAt: -1 }).skip(skip).limit(limit),
+      Job.countDocuments(filter)
+    ]);
 
-    res.json({
-      jobs,
-      pagination: { page: Number(page), limit: Number(limit), total, pages: Math.ceil(total / Number(limit)) }
-    });
+    res.set('Cache-Control', 'no-store');
+    res.json({ jobs, page, total });
   } catch (e) {
     LOG.error('GET /api/jobs error:', e.message);
     res.status(500).json({ error: 'Failed to fetch jobs' });
   }
 });
 
-app.get('/api/jobs/:id', async (req, res) => {
-  try {
-    const job = await Job.findById(req.params.id);
-    if (!job) return res.status(404).json({ error: 'Job not found' });
-    res.json(job);
-  } catch (e) {
-    LOG.error('GET /api/jobs/:id error:', e.message);
-    res.status(500).json({ error: 'Failed to fetch job' });
-  }
-});
 
 app.get('/api/stats', async (req, res) => {
   try {

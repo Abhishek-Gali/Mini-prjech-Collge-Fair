@@ -1,4 +1,5 @@
-// Frontend/app.js — API-driven (consolidated)
+// Frontend/app.js — API-driven with progress bar
+
 const API_BASE_URL = 'http://127.0.0.1:5000/api';
 
 // DOM refs
@@ -9,10 +10,20 @@ const loadingToast = document.querySelector('#loading-toast') || document.queryS
 const viewAllBtn = document.querySelector('#view-all-btn') || document.querySelector('button.view-all');
 const platformRadios = document.querySelectorAll('input[name="platform"]');
 const scrapeSelectedBtn = document.querySelector('#scrape-selected');
+const scrapeBar = document.querySelector('#scrape-bar');
 
+// Mini corner loader (kept small)
 function showLoading(on = true) {
   if (!loadingToast) return;
   loadingToast.style.display = on ? 'block' : 'none';
+}
+
+// Linear progress bar shown while scraping
+function showScrapeBar(on = true, label = 'Scraping selected platform…') {
+  if (!scrapeBar) return;
+  scrapeBar.style.display = on ? 'block' : 'none';
+  const labelEl = scrapeBar.querySelector('.progress__label');
+  if (labelEl) labelEl.textContent = label;
 }
 
 function setJobsCount(n) {
@@ -71,8 +82,25 @@ function renderJobs(jobs) {
   setJobsCount(jobs.length);
 }
 
+// Single fetch with cache-bypass and 304 retry
+async function fetchJobs({ search = '', page = 1, limit = 50, source = '' } = {}) {
+  const qs = new URLSearchParams({ page, limit });
+  if (search) qs.set('search', search);
+  if (source) qs.set('source', source);
 
-// Single load function that forwards selected platform
+  let res = await fetch(`${API_BASE_URL}/jobs?${qs.toString()}`, {
+    headers: { 'Accept': 'application/json' },
+    cache: 'no-store'
+  });
+  if (res.status === 304) {
+    res = await fetch(`${API_BASE_URL}/jobs?${qs.toString()}`, { cache: 'reload' });
+  }
+  if (!res.ok) throw new Error(`Failed to load jobs (${res.status})`);
+  const payload = await res.json();
+  return payload.jobs || [];
+}
+
+// Forward selected platform to API and render result
 async function loadJobs(search = '') {
   showLoading(true);
   try {
@@ -93,19 +121,19 @@ async function loadJobs(search = '') {
   }
 }
 
-// Trigger backend scrape for selected platform (default to upsert refresh)
+// Trigger backend scrape; show progress bar until data is reloaded
 async function scrapeForSelected(mode = 'upsert') {
   const selected = document.querySelector('input[name="platform"]:checked')?.value || '';
   if (!selected) return;
-  showLoading(true);
+  showScrapeBar(true, `Scraping ${selected}…`);
   try {
     const url = `${API_BASE_URL}/scrape?source=${encodeURIComponent(selected)}${mode ? `&mode=${mode}` : ''}`;
     await fetch(url, { method: 'POST' });
-    await loadJobs('');
+    await loadJobs('');          // replace progress with cards
   } catch (e) {
     console.error(e);
   } finally {
-    showLoading(false);
+    showScrapeBar(false);
   }
 }
 
@@ -120,13 +148,13 @@ if (searchInput) {
 }
 
 // View All
-if (viewAllBtn) {
-  viewAllBtn.addEventListener('click', () => loadJobs(''));
-}
+if (viewAllBtn) viewAllBtn.addEventListener('click', () => loadJobs(''));
 
-// Platform changes and scrape action
-if (scrapeSelectedBtn) scrapeSelectedBtn.addEventListener('click', () => scrapeForSelected('upsert'));
+// Platform change -> reload
 platformRadios.forEach(r => r.addEventListener('change', () => loadJobs(searchInput?.value?.trim() || '')));
+
+// Scrape button
+if (scrapeSelectedBtn) scrapeSelectedBtn.addEventListener('click', () => scrapeForSelected('upsert'));
 
 // Initial load
 document.addEventListener('DOMContentLoaded', () => { loadJobs(''); });
