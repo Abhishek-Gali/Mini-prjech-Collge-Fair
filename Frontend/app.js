@@ -123,3 +123,50 @@ if (viewAllBtn) {
 document.addEventListener('DOMContentLoaded', () => {
   loadJobs('');
 });
+
+// Add near other refs
+const platformRadios = document.querySelectorAll('input[name="platform"]');
+const scrapeSelectedBtn = document.querySelector('#scrape-selected');
+
+// Extend fetchJobs to accept source
+async function fetchJobs({ search = '', page = 1, limit = 50, source = '' } = {}) {
+  const qs = new URLSearchParams({ page, limit });
+  if (search) qs.set('search', search);
+  if (source) qs.set('source', source);
+  const res = await fetch(`${API_BASE_URL}/jobs?${qs.toString()}`, { headers: { 'Accept':'application/json' } });
+  if (!res.ok) throw new Error('Failed to load jobs');
+  const payload = await res.json();
+  return payload.jobs || [];
+}
+
+// Update loadJobs to forward selected source
+async function loadJobs(search = '') {
+  showLoading(true);
+  try {
+    const selected = document.querySelector('input[name="platform"]:checked')?.value || '';
+    const jobs = await fetchJobs({ search, page: 1, limit: 50, source: selected });
+    renderJobs(jobs);
+  } catch (e) {
+    console.error(e); renderJobs([]);
+  } finally {
+    showLoading(false);
+  }
+}
+
+// Trigger scrape for the chosen platform, then reload jobs
+async function scrapeForSelected() {
+  const selected = document.querySelector('input[name="platform"]:checked')?.value || '';
+  if (!selected) return;
+  showLoading(true);
+  try {
+    await fetch(`${API_BASE_URL}/scrape?source=${encodeURIComponent(selected)}`, { method: 'POST' });
+    await loadJobs('');
+  } catch (e) {
+    console.error(e);
+  } finally {
+    showLoading(false);
+  }
+}
+
+if (scrapeSelectedBtn) scrapeSelectedBtn.addEventListener('click', scrapeForSelected);
+platformRadios.forEach(r => r.addEventListener('change', () => loadJobs(searchInput?.value?.trim() || '')));
