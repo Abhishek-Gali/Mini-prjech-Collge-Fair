@@ -329,34 +329,31 @@ async function pickProxyFromEnv() {
 }
 
 async function withBrowser(fn) {
-  if (!USE_HEADLESS || !playwrightExtra) {
-    throw new Error('Headless stack not available');
-  }
+  if (!USE_HEADLESS || !playwrightExtra) throw new Error('Headless stack not available');
   const proxyServer = await pickProxyFromEnv();
   const headless = String(process.env.HEADLESS || 'true') === 'true';
   const chromium = playwrightExtra.chromium;
+
+  const ua = (randomUA && randomUA.getRandom) ? randomUA.getRandom()
+    : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
+
   const browser = await chromium.launch({
     headless,
     args: ['--no-sandbox', '--disable-blink-features=AutomationControlled'],
     proxy: proxyServer ? { server: proxyServer } : undefined
   });
-  const context = await browser.newContext();
+
+  const context = await browser.newContext({ userAgent: ua });
   const page = await context.newPage();
-  try {
-    const ua = randomUA && randomUA.getRandom
-      ? randomUA.getRandom()
-      : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
-    await page.setUserAgent(ua);
-    await page.route('**/*', route => {
-      const type = route.request().resourceType();
-      if (['image','font','media','stylesheet'].includes(type)) return route.abort();
-      return route.continue();
-    });
-    return await fn(page, context);
-  } finally {
-    await context.close();
-    await browser.close();
-  }
+
+  await page.route('**/*', route => {
+    const t = route.request().resourceType();
+    if (['image','font','media','stylesheet'].includes(t)) return route.abort();
+    return route.continue();
+  });
+
+  try { return await fn(page, context); }
+  finally { await context.close(); await browser.close(); }
 }
 
 async function headlessScrapeIndeed() {
