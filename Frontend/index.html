@@ -23,14 +23,23 @@
 
   <main>
     <section class="hero">
-      <h1 class="hero__title">Security Engineering & Research Roles</h1>
-      <p class="hero__subtitle">Fresh listings across India with filters that matter: skills, companies, and locations.</p>
+      <h1 class="hero__title">Security Engineering & Research</h1>
+      <p class="hero__subtitle">Fresh roles across India. Filter by platform and search skills, companies, or titles.</p>
+
       <div class="toolbar">
         <input id="job-search-input" type="search" class="toolbar__search" placeholder="Search by title, company, or skill…" aria-label="Search jobs" />
         <button id="view-all-btn" class="btn btn--ghost">View All</button>
       </div>
+
       <div class="meta-line">
         <span id="jobs-count">0 jobs found</span>
+      </div>
+
+      <div class="platform-picker">
+        <label><input type="radio" name="platform" value="linkedin"> LinkedIn</label>
+        <label><input type="radio" name="platform" value="indeed"> Indeed</label>
+        <label><input type="radio" name="platform" value="naukri" checked> Naukri</label>
+        <button id="scrape-selected" class="btn">Scrape Selected</button>
       </div>
     </section>
 
