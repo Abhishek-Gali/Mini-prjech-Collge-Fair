@@ -1,272 +1,15 @@
-// Cybersecurity Jobs Data
-const jobsData = {
-  "jobs": [
-    {
-      "id": 1,
-      "company": "TCS (Tata Consultancy Services)",
-      "position": "Cybersecurity Analyst",
-      "salary": "₹4,00,000 - ₹9,00,000",
-      "experience": "0-3 years",
-      "employmentRate": "High",
-      "authority": "Junior",
-      "location": "Mumbai, Bangalore, Chennai",
-      "skills": ["SIEM Tools", "Network Security", "Incident Response", "Risk Assessment", "Security Monitoring"],
-      "certifications": ["CompTIA Security+", "CEH", "CISSP Associate"],
-      "responsibilities": ["Monitor security alerts and events", "Investigate security incidents", "Perform vulnerability assessments", "Document security procedures"]
-    },
-    {
-      "id": 2,
-      "company": "Infosys",
-      "position": "Security Engineer",
-      "salary": "₹6,00,000 - ₹15,00,000",
-      "experience": "2-5 years",
-      "employmentRate": "Very High",
-      "authority": "Mid-Level",
-      "location": "Bangalore, Hyderabad, Pune",
-      "skills": ["Firewall Configuration", "Python", "AWS Security", "DevSecOps", "Penetration Testing"],
-      "certifications": ["CISSP", "AWS Security Specialty", "OSCP"],
-      "responsibilities": ["Design security architecture", "Implement security controls", "Conduct security reviews", "Automate security processes"]
-    },
-    {
-      "id": 3,
-      "company": "Accenture",
-      "position": "Security Consultant",
-      "salary": "₹8,00,000 - ₹25,00,000",
-      "experience": "3-7 years",
-      "employmentRate": "Very High",
-      "authority": "Mid-Level",
-      "location": "Gurgaon, Mumbai, Bangalore",
-      "skills": ["GRC", "ISO 27001", "Risk Management", "Security Auditing", "Compliance Frameworks"],
-      "certifications": ["CISA", "CISM", "ISO 27001 Lead Auditor"],
-      "responsibilities": ["Conduct security assessments", "Develop security policies", "Ensure regulatory compliance", "Provide client consulting"]
-    },
-    {
-      "id": 4,
-      "company": "Wipro",
-      "position": "SOC Analyst",
-      "salary": "₹3,50,000 - ₹8,00,000",
-      "experience": "1-4 years",
-      "employmentRate": "High",
-      "authority": "Junior",
-      "location": "Bangalore, Chennai, Hyderabad",
-      "skills": ["Splunk", "QRadar", "Threat Hunting", "Malware Analysis", "Network Forensics"],
-      "certifications": ["GCIH", "GCFA", "SOC Analyst Certification"],
-      "responsibilities": ["Monitor security dashboards", "Analyze security alerts", "Perform threat hunting", "Coordinate incident response"]
-    },
-    {
-      "id": 5,
-      "company": "HCL Technologies",
-      "position": "Penetration Tester",
-      "salary": "₹5,00,000 - ₹15,00,000",
-      "experience": "2-6 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Noida, Chennai, Bangalore",
-      "skills": ["Metasploit", "Burp Suite", "Nmap", "Web Application Testing", "Social Engineering"],
-      "certifications": ["CEH", "OSCP", "GPEN"],
-      "responsibilities": ["Conduct penetration testing", "Identify vulnerabilities", "Write detailed reports", "Provide remediation guidance"]
-    },
-    {
-      "id": 6,
-      "company": "IBM India",
-      "position": "Security Architect",
-      "salary": "₹15,00,000 - ₹40,00,000",
-      "experience": "5-12 years",
-      "employmentRate": "Very High",
-      "authority": "Senior",
-      "location": "Bangalore, Mumbai, Delhi",
-      "skills": ["Enterprise Architecture", "Zero Trust", "Cloud Security", "Identity Management", "Threat Modeling"],
-      "certifications": ["SABSA", "TOGAF", "CISSP", "CCSP"],
-      "responsibilities": ["Design security frameworks", "Lead architecture reviews", "Develop security strategies", "Mentor junior staff"]
-    },
-    {
-      "id": 7,
-      "company": "Deloitte India",
-      "position": "Cyber Risk Manager",
-      "salary": "₹12,00,000 - ₹35,00,000",
-      "experience": "4-10 years",
-      "employmentRate": "Very High",
-      "authority": "Senior",
-      "location": "Mumbai, Gurgaon, Hyderabad",
-      "skills": ["Risk Assessment", "NIST Framework", "Third-party Risk", "Business Continuity", "Crisis Management"],
-      "certifications": ["CRISC", "CISA", "CISM"],
-      "responsibilities": ["Assess cyber risks", "Develop risk strategies", "Manage vendor risks", "Report to executives"]
-    },
-    {
-      "id": 8,
-      "company": "Palo Alto Networks India",
-      "position": "Cloud Security Engineer",
-      "salary": "₹10,00,000 - ₹25,00,000",
-      "experience": "3-8 years",
-      "employmentRate": "Very High",
-      "authority": "Mid-Level",
-      "location": "Bangalore, Mumbai",
-      "skills": ["Prisma Cloud", "AWS", "Azure", "Kubernetes Security", "Container Security"],
-      "certifications": ["CCSP", "AWS Security", "Azure Security", "Prisma Certified"],
-      "responsibilities": ["Secure cloud environments", "Implement cloud policies", "Monitor cloud security", "Automate security tasks"]
-    },
-    {
-      "id": 9,
-      "company": "KPMG India",
-      "position": "Digital Forensics Analyst",
-      "salary": "₹6,00,000 - ₹18,00,000",
-      "experience": "2-6 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Mumbai, Delhi, Bangalore",
-      "skills": ["EnCase", "FTK", "Volatility", "Mobile Forensics", "Network Forensics"],
-      "certifications": ["GCFA", "GCFE", "CCE"],
-      "responsibilities": ["Conduct forensic investigations", "Analyze digital evidence", "Prepare court reports", "Testify in legal proceedings"]
-    },
-    {
-      "id": 10,
-      "company": "Capgemini India",
-      "position": "Identity & Access Management Specialist",
-      "salary": "₹7,00,000 - ₹20,00,000",
-      "experience": "3-7 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Mumbai, Pune, Chennai",
-      "skills": ["Active Directory", "SailPoint", "Okta", "LDAP", "SAML"],
-      "certifications": ["CISSP", "SailPoint Certified", "Okta Certified"],
-      "responsibilities": ["Manage user identities", "Implement access controls", "Conduct access reviews", "Ensure compliance"]
-    },
-    {
-      "id": 11,
-      "company": "Tech Mahindra",
-      "position": "Threat Intelligence Analyst",
-      "salary": "₹5,50,000 - ₹14,00,000",
-      "experience": "2-5 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Pune, Hyderabad, Bangalore",
-      "skills": ["MITRE ATT&CK", "Threat Hunting", "OSINT", "IOC Analysis", "TIP Platforms"],
-      "certifications": ["GCTI", "CTIA", "SANS FOR578"],
-      "responsibilities": ["Analyze threat intelligence", "Track threat actors", "Develop IOCs", "Brief security teams"]
-    },
-    {
-      "id": 12,
-      "company": "Cognizant",
-      "position": "Incident Response Manager",
-      "salary": "₹9,00,000 - ₹25,00,000",
-      "experience": "4-9 years",
-      "employmentRate": "Very High",
-      "authority": "Senior",
-      "location": "Chennai, Mumbai, Bangalore",
-      "skills": ["Incident Response", "Digital Forensics", "Crisis Management", "SIEM", "Malware Analysis"],
-      "certifications": ["GCIH", "GCFA", "CISSP"],
-      "responsibilities": ["Lead incident response", "Coordinate with teams", "Manage communications", "Conduct post-incident reviews"]
-    },
-    {
-      "id": 13,
-      "company": "L&T Technology Services",
-      "position": "IoT Security Engineer",
-      "salary": "₹6,50,000 - ₹16,00,000",
-      "experience": "2-6 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Bangalore, Pune, Chennai",
-      "skills": ["IoT Protocols", "Embedded Security", "Firmware Analysis", "Hardware Security", "Wireless Security"],
-      "certifications": ["IoT Security Foundation", "CISSP", "Hardware Security"],
-      "responsibilities": ["Secure IoT devices", "Analyze firmware", "Test hardware security", "Develop security protocols"]
-    },
-    {
-      "id": 14,
-      "company": "Persistent Systems",
-      "position": "DevSecOps Engineer",
-      "salary": "₹8,00,000 - ₹20,00,000",
-      "experience": "3-7 years",
-      "employmentRate": "Very High",
-      "authority": "Mid-Level",
-      "location": "Pune, Goa, Nagpur",
-      "skills": ["Jenkins", "Docker", "Kubernetes", "SAST/DAST", "GitLab CI/CD"],
-      "certifications": ["DevSecOps Foundation", "Kubernetes Security", "AWS DevOps"],
-      "responsibilities": ["Integrate security in CI/CD", "Automate security testing", "Manage container security", "Train development teams"]
-    },
-    {
-      "id": 15,
-      "company": "Mindtree (LTI Mindtree)",
-      "position": "Blockchain Security Specialist",
-      "salary": "₹10,00,000 - ₹28,00,000",
-      "experience": "4-8 years",
-      "employmentRate": "High",
-      "authority": "Senior",
-      "location": "Bangalore, Bhubaneswar, Chennai",
-      "skills": ["Smart Contract Security", "Ethereum", "Hyperledger", "Cryptography", "DeFi Security"],
-      "certifications": ["Certified Blockchain Security Professional", "Ethereum Developer", "Hyperledger"],
-      "responsibilities": ["Audit smart contracts", "Secure blockchain networks", "Assess DeFi protocols", "Research new threats"]
-    },
-    {
-      "id": 16,
-      "company": "Mphasis",
-      "position": "Application Security Engineer",
-      "salary": "₹6,00,000 - ₹16,00,000",
-      "experience": "2-6 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Bangalore, Pune, Chennai",
-      "skills": ["OWASP", "Static Analysis", "Dynamic Analysis", "Secure Coding", "Web Application Security"],
-      "certifications": ["CSSLP", "GWEB", "CEH"],
-      "responsibilities": ["Conduct code reviews", "Perform security testing", "Train developers", "Implement security standards"]
-    },
-    {
-      "id": 17,
-      "company": "Hexaware Technologies",
-      "position": "Compliance Manager - Cybersecurity",
-      "salary": "₹11,00,000 - ₹30,00,000",
-      "experience": "5-10 years",
-      "employmentRate": "High",
-      "authority": "Senior",
-      "location": "Mumbai, Chennai, Pune",
-      "skills": ["SOX", "PCI DSS", "GDPR", "HIPAA", "Audit Management"],
-      "certifications": ["CISA", "CISM", "PCI QSA"],
-      "responsibilities": ["Ensure regulatory compliance", "Manage audits", "Develop policies", "Train staff on compliance"]
-    },
-    {
-      "id": 18,
-      "company": "Cybertech Systems and Software",
-      "position": "Malware Analyst",
-      "salary": "₹5,00,000 - ₹13,00,000",
-      "experience": "2-5 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Mumbai, Delhi, Bangalore",
-      "skills": ["Reverse Engineering", "IDA Pro", "Ghidra", "Sandbox Analysis", "Assembly Language"],
-      "certifications": ["GREM", "Certified Malware Analyst", "SANS FOR610"],
-      "responsibilities": ["Analyze malware samples", "Reverse engineer threats", "Develop signatures", "Research new malware families"]
-    },
-    {
-      "id": 19,
-      "company": "Quick Heal Technologies",
-      "position": "Security Research Engineer",
-      "salary": "₹7,00,000 - ₹18,00,000",
-      "experience": "3-7 years",
-      "employmentRate": "High",
-      "authority": "Mid-Level",
-      "location": "Pune, Mumbai",
-      "skills": ["Vulnerability Research", "Exploit Development", "Fuzzing", "Binary Analysis", "0-day Research"],
-      "certifications": ["OSCE", "OSEE", "GXPN"],
-      "responsibilities": ["Research vulnerabilities", "Develop exploits", "Write security advisories", "Present at conferences"]
-    },
-    {
-      "id": 20,
-      "company": "Paladion Networks",
-      "position": "CISO (Chief Information Security Officer)",
-      "salary": "₹35,00,000 - ₹80,00,000",
-      "experience": "10-20 years",
-      "employmentRate": "Very High",
-      "authority": "Executive",
-      "location": "Mumbai, Bangalore, Delhi",
-      "skills": ["Strategic Planning", "Board Reporting", "Enterprise Risk Management", "Security Governance", "Regulatory Compliance"],
-      "certifications": ["CISSP", "CISM", "CCISO"],
-      "responsibilities": ["Develop security strategy", "Report to board", "Manage security budget", "Lead security organization"]
-    }
-  ]
-};
+
+// Updated app.js to connect to the backend API
+// Replace the static jobsData with API calls
+
+// API Configuration
+const API_BASE_URL = 'https://localhost:5000/api'; // Replace with your Render URL
+// For local development, use: const API_BASE_URL = 'http://localhost:5000/api';
 
 // Global variables
-let filteredJobs = jobsData.jobs;
+let filteredJobs = [];
 let currentSelectedJob = null;
+let isLoading = false;
 
 // DOM Elements
 let searchInput, clearSearchBtn, jobsGrid, noResults, resultsCount;
@@ -283,29 +26,149 @@ document.addEventListener('DOMContentLoaded', function() {
     skillsModal = document.getElementById('skillsModal');
     applicationModal = document.getElementById('applicationModal');
     loadingIndicator = document.getElementById('loadingIndicator');
-    
-    showLoading();
-    setTimeout(() => {
-        hideLoading();
-        renderJobs(filteredJobs);
-        updateResultsCount();
-        setupEventListeners();
-    }, 500);
+
+    // Load initial jobs
+    loadJobs();
+
+    // Setup event listeners
+    setupEventListeners();
 });
+
+// API Functions
+async function fetchJobs(filters = {}) {
+    try {
+        isLoading = true;
+        showLoading();
+
+        const params = new URLSearchParams();
+
+        if (filters.search) params.append('search', filters.search);
+        if (filters.source) params.append('source', filters.source);
+        if (filters.location) params.append('location', filters.location);
+        if (filters.company) params.append('company', filters.company);
+        if (filters.skills) params.append('skills', filters.skills);
+        if (filters.page) params.append('page', filters.page);
+        if (filters.limit) params.append('limit', filters.limit);
+
+        const url = `${API_BASE_URL}/jobs?${params.toString()}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
+        showError('Failed to load jobs. Please check your connection and try again.');
+        return { jobs: [], pagination: { total: 0 } };
+    } finally {
+        isLoading = false;
+        hideLoading();
+    }
+}
+
+async function fetchJobById(jobId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error('Error fetching job details:', error);
+        return null;
+    }
+}
+
+async function fetchStats() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/stats`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+        return null;
+    }
+}
+
+async function triggerManualScraping() {
+    try {
+        showLoading('Scraping new jobs...');
+
+        const response = await fetch(`${API_BASE_URL}/scrape`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Scraping result:', result);
+
+        // Reload jobs after scraping
+        await loadJobs();
+
+        showMessage(`Scraping completed! Found ${result.jobsFound} jobs.`);
+
+    } catch (error) {
+        console.error('Error triggering scraping:', error);
+        showError('Failed to trigger scraping. Please try again later.');
+    } finally {
+        hideLoading();
+    }
+}
+
+// Load jobs function
+async function loadJobs(filters = {}) {
+    const data = await fetchJobs(filters);
+    filteredJobs = data.jobs || [];
+
+    renderJobs(filteredJobs);
+    updateResultsCount(data.pagination?.total || 0);
+}
 
 // Event Listeners Setup
 function setupEventListeners() {
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
     }
-    
+
     if (clearSearchBtn) {
         clearSearchBtn.addEventListener('click', handleClearSearch);
     }
-    
+
+    // Add refresh button event listener
+    const refreshBtn = document.getElementById('refreshJobs');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async () => {
+            await loadJobs();
+        });
+    }
+
+    // Add manual scraping button event listener
+    const scrapeBtn = document.getElementById('triggerScraping');
+    if (scrapeBtn) {
+        scrapeBtn.addEventListener('click', triggerManualScraping);
+    }
+
     // Modal event listeners
     document.addEventListener('keydown', handleKeyPress);
-    
+
     // Form submission
     const applicationForm = document.getElementById('applicationForm');
     if (applicationForm) {
@@ -313,23 +176,16 @@ function setupEventListeners() {
     }
 }
 
-// Search functionality
-function handleSearch(event) {
+// Search functionality with API integration
+async function handleSearch(event) {
     const query = event.target.value.toLowerCase().trim();
-    
-    if (query.length > 0) {
-        clearSearchBtn.classList.add('visible');
-        filteredJobs = jobsData.jobs.filter(job => 
-            job.company.toLowerCase().includes(query) ||
-            job.position.toLowerCase().includes(query)
-        );
-    } else {
-        clearSearchBtn.classList.remove('visible');
-        filteredJobs = jobsData.jobs;
+
+    if (query.length > 2 || query.length === 0) { // Only search after 3+ characters or empty
+        clearSearchBtn.classList.toggle('visible', query.length > 0);
+
+        const filters = query.length > 0 ? { search: query } : {};
+        await loadJobs(filters);
     }
-    
-    renderJobs(filteredJobs);
-    updateResultsCount();
 }
 
 function handleClearSearch(event) {
@@ -338,32 +194,31 @@ function handleClearSearch(event) {
     clearSearch();
 }
 
-function clearSearch() {
+async function clearSearch() {
     if (searchInput) {
         searchInput.value = '';
         clearSearchBtn.classList.remove('visible');
-        filteredJobs = jobsData.jobs;
-        renderJobs(filteredJobs);
-        updateResultsCount();
+
+        await loadJobs(); // Reload all jobs
         searchInput.focus();
     }
 }
 
-// Job rendering
+// Job rendering functions
 function renderJobs(jobs) {
     if (!jobsGrid) return;
-    
+
     jobsGrid.innerHTML = '';
-    
+
     if (jobs.length === 0) {
         jobsGrid.classList.add('hidden');
         noResults.classList.remove('hidden');
         return;
     }
-    
+
     jobsGrid.classList.remove('hidden');
     noResults.classList.add('hidden');
-    
+
     jobs.forEach(job => {
         const jobCard = createJobCard(job);
         jobsGrid.appendChild(jobCard);
@@ -375,270 +230,133 @@ function createJobCard(job) {
     card.className = 'job-card';
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', `View details for ${job.position} at ${job.company}`);
-    card.setAttribute('data-job-id', job.id);
-    
-    const employmentRateClass = job.employmentRate.toLowerCase().replace(' ', '-');
-    
+    card.setAttribute('aria-label', `View details for ${job.title} at ${job.company}`);
+    card.setAttribute('data-job-id', job._id);
+
+    // Determine employment rate class (fallback if not provided)
+    const employmentRateClass = 'high'; // Default fallback
+
+    // Format salary (handle both old and new format)
+    const salary = job.salary || 'Salary not disclosed';
+
+    // Format experience
+    const experience = job.experience || 'Not specified';
+
+    // Format posted date
+    const postedDate = job.postedDate ? new Date(job.postedDate).toLocaleDateString() : 'Recently';
+
+    // Format skills
+    const skillsHtml = job.skills && job.skills.length > 0 
+        ? job.skills.slice(0, 3).map(skill => `<span class="skill-tag">${skill}</span>`).join('')
+        : '<span class="skill-tag">General Security</span>';
+
     card.innerHTML = `
         <div class="job-card-header">
-            <div class="job-info">
-                <h3 class="job-title">${job.position}</h3>
+            <div>
+                <h3 class="job-title">${job.title}</h3>
                 <p class="job-company">${job.company}</p>
             </div>
             <span class="employment-rate employment-rate--${employmentRateClass}">
-                ${job.employmentRate}
+                ${job.source || 'Unknown'}
             </span>
         </div>
-        
-        <p class="job-location">📍 ${job.location}</p>
-        
+
         <div class="job-details">
             <div class="job-detail">
                 <span class="job-detail-label">Salary</span>
-                <span class="job-detail-value job-salary">${job.salary}</span>
+                <span class="job-detail-value job-salary">${salary}</span>
             </div>
             <div class="job-detail">
                 <span class="job-detail-label">Experience</span>
-                <span class="job-detail-value">${job.experience}</span>
-            </div>
-            <div class="job-detail">
-                <span class="job-detail-label">Level</span>
-                <span class="job-detail-value">${job.authority}</span>
-            </div>
-            <div class="job-detail">
-                <span class="job-detail-label">Rate</span>
-                <span class="job-detail-value">${job.employmentRate}</span>
+                <span class="job-detail-value">${experience}</span>
             </div>
         </div>
-        
+
+        <p class="job-location">📍 ${job.location}</p>
+
+        <div class="job-skills">
+            ${skillsHtml}
+        </div>
+
+        <div class="job-meta">
+            <small>Posted: ${postedDate} • Source: ${job.source}</small>
+        </div>
+
         <div class="job-actions">
-            <button class="btn--apply" data-job-id="${job.id}" aria-label="Apply for ${job.position}">
-                Apply Now
+            <button class="btn btn--apply" onclick="openJobDetails('${job._id}')">
+                View Details
             </button>
+            ${job.url ? `<a href="${job.url}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Apply Now</a>` : ''}
         </div>
     `;
-    
-    // Add click event for opening skills modal
-    card.addEventListener('click', function(e) {
-        // Don't open skills modal if apply button was clicked
-        if (!e.target.classList.contains('btn--apply')) {
-            e.preventDefault();
-            e.stopPropagation();
-            openSkillsModal(job.id);
-        }
-    });
-    
-    // Add keyboard support
-    card.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openSkillsModal(job.id);
-        }
-    });
-    
-    // Add apply button event listener
-    const applyBtn = card.querySelector('.btn--apply');
-    if (applyBtn) {
-        applyBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openApplyModal(job.id);
-        });
-    }
-    
+
+    // Add click event for the entire card
+    card.addEventListener('click', () => openJobDetails(job._id));
+
     return card;
 }
 
-// Modal functionality
-function openSkillsModal(jobId) {
-    const job = jobsData.jobs.find(j => j.id === jobId);
-    if (!job || !skillsModal) return;
-    
-    currentSelectedJob = job;
-    
-    // Populate modal content
-    const modalJobTitle = document.getElementById('modalJobTitle');
-    const modalCompany = document.getElementById('modalCompany');
-    const modalPosition = document.getElementById('modalPosition');
-    const modalLocation = document.getElementById('modalLocation');
-    const modalSalary = document.getElementById('modalSalary');
-    const modalExperience = document.getElementById('modalExperience');
-    const modalEmploymentRate = document.getElementById('modalEmploymentRate');
-    const modalAuthority = document.getElementById('modalAuthority');
-    
-    if (modalJobTitle) modalJobTitle.textContent = `${job.position} - ${job.company}`;
-    if (modalCompany) modalCompany.textContent = job.company;
-    if (modalPosition) modalPosition.textContent = job.position;
-    if (modalLocation) modalLocation.textContent = job.location;
-    if (modalSalary) modalSalary.textContent = job.salary;
-    if (modalExperience) modalExperience.textContent = job.experience;
-    if (modalEmploymentRate) modalEmploymentRate.textContent = job.employmentRate;
-    if (modalAuthority) modalAuthority.textContent = job.authority;
-    
-    // Skills
-    const skillsContainer = document.getElementById('modalSkills');
-    if (skillsContainer) {
-        skillsContainer.innerHTML = '';
-        job.skills.forEach(skill => {
-            const skillTag = document.createElement('span');
-            skillTag.className = 'skill-tag';
-            skillTag.textContent = skill;
-            skillsContainer.appendChild(skillTag);
-        });
-    }
-    
-    // Certifications
-    const certsContainer = document.getElementById('modalCertifications');
-    if (certsContainer) {
-        certsContainer.innerHTML = '';
-        job.certifications.forEach(cert => {
-            const certTag = document.createElement('span');
-            certTag.className = 'cert-tag';
-            certTag.textContent = cert;
-            certsContainer.appendChild(certTag);
-        });
-    }
-    
-    // Responsibilities
-    const responsibilitiesContainer = document.getElementById('modalResponsibilities');
-    if (responsibilitiesContainer) {
-        responsibilitiesContainer.innerHTML = '';
-        job.responsibilities.forEach(responsibility => {
-            const li = document.createElement('li');
-            li.textContent = responsibility;
-            responsibilitiesContainer.appendChild(li);
-        });
-    }
-    
-    // Show modal
-    skillsModal.classList.remove('hidden');
-    skillsModal.setAttribute('tabindex', '0');
-    skillsModal.focus();
-    document.body.style.overflow = 'hidden';
-}
+// Job details modal
+async function openJobDetails(jobId) {
+    const job = await fetchJobById(jobId);
 
-function closeSkillsModal() {
-    if (skillsModal) {
-        skillsModal.classList.add('hidden');
-        document.body.style.overflow = '';
-        currentSelectedJob = null;
-    }
-}
-
-function openApplyModal(jobId = null) {
-    const job = jobId ? jobsData.jobs.find(j => j.id === jobId) : currentSelectedJob;
-    if (!job || !applicationModal) return;
-    
-    // Close skills modal if open
-    if (skillsModal && !skillsModal.classList.contains('hidden')) {
-        closeSkillsModal();
-    }
-    
-    // Populate application modal
-    const applyJobTitle = document.getElementById('applyJobTitle');
-    const applyCompany = document.getElementById('applyCompany');
-    const applyLocation = document.getElementById('applyLocation');
-    const applySalary = document.getElementById('applySalary');
-    
-    if (applyJobTitle) applyJobTitle.textContent = job.position;
-    if (applyCompany) applyCompany.textContent = job.company;
-    if (applyLocation) applyLocation.textContent = job.location;
-    if (applySalary) applySalary.textContent = job.salary;
-    
-    // Clear form
-    const form = document.getElementById('applicationForm');
-    if (form) {
-        form.reset();
-    }
-    
-    // Show modal
-    applicationModal.classList.remove('hidden');
-    applicationModal.setAttribute('tabindex', '0');
-    document.body.style.overflow = 'hidden';
-    
-    // Focus on first input
-    setTimeout(() => {
-        const firstInput = document.getElementById('applicantName');
-        if (firstInput) {
-            firstInput.focus();
-        }
-    }, 100);
-}
-
-function closeApplicationModal() {
-    if (applicationModal) {
-        applicationModal.classList.add('hidden');
-        document.body.style.overflow = '';
-    }
-}
-
-function submitApplication() {
-    const form = document.getElementById('applicationForm');
-    if (!form) return;
-    
-    // Basic validation
-    const requiredFields = ['applicantName', 'applicantEmail', 'applicantPhone', 'applicantExperience'];
-    let isValid = true;
-    
-    requiredFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field && !field.value.trim()) {
-            field.style.borderColor = 'var(--color-error)';
-            isValid = false;
-        } else if (field) {
-            field.style.borderColor = '';
-        }
-    });
-    
-    if (!isValid) {
-        alert('Please fill in all required fields.');
+    if (!job) {
+        showError('Failed to load job details');
         return;
     }
-    
-    // Email validation
-    const emailField = document.getElementById('applicantEmail');
-    if (emailField) {
-        const email = emailField.value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            emailField.style.borderColor = 'var(--color-error)';
-            alert('Please enter a valid email address.');
-            return;
-        }
+
+    currentSelectedJob = job;
+
+    // Update modal content
+    document.getElementById('modalJobTitle').textContent = job.title;
+    document.getElementById('modalCompany').textContent = job.company;
+    document.getElementById('modalLocation').textContent = job.location;
+    document.getElementById('modalSalary').textContent = job.salary || 'Not disclosed';
+    document.getElementById('modalExperience').textContent = job.experience || 'Not specified';
+    document.getElementById('modalSource').textContent = job.source;
+
+    // Update skills
+    const skillsContainer = document.getElementById('modalSkills');
+    if (job.skills && job.skills.length > 0) {
+        skillsContainer.innerHTML = job.skills.map(skill => 
+            `<span class="skill-tag">${skill}</span>`
+        ).join('');
+    } else {
+        skillsContainer.innerHTML = '<span class="skill-tag">General Security</span>';
     }
-    
-    // Show success message
-    showLoading();
-    
-    setTimeout(() => {
-        hideLoading();
-        alert('Application submitted successfully! We will contact you soon.');
-        closeApplicationModal();
-    }, 1500);
+
+    // Update description
+    const descriptionContainer = document.getElementById('modalDescription');
+    descriptionContainer.textContent = job.description || job.title;
+
+    // Update apply button
+    const applyBtn = document.getElementById('modalApplyBtn');
+    if (job.url) {
+        applyBtn.href = job.url;
+        applyBtn.style.display = 'inline-block';
+    } else {
+        applyBtn.style.display = 'none';
+    }
+
+    // Show modal
+    skillsModal.classList.remove('hidden');
 }
 
-// Keyboard event handling
-function handleKeyPress(event) {
-    if (event.key === 'Escape') {
-        if (applicationModal && !applicationModal.classList.contains('hidden')) {
-            closeApplicationModal();
-        } else if (skillsModal && !skillsModal.classList.contains('hidden')) {
-            closeSkillsModal();
-        }
-    }
-}
-
-// Utility functions
-function updateResultsCount() {
+// Update results count
+function updateResultsCount(total = null) {
     if (!resultsCount) return;
-    const count = filteredJobs.length;
-    const jobText = count === 1 ? 'job' : 'jobs';
-    resultsCount.textContent = `${count} ${jobText} found`;
+
+    if (total !== null) {
+        resultsCount.textContent = `${total} jobs found`;
+    } else {
+        resultsCount.textContent = `${filteredJobs.length} jobs found`;
+    }
 }
 
-function showLoading() {
+// Loading states
+function showLoading(message = 'Loading jobs...') {
     if (loadingIndicator) {
+        loadingIndicator.querySelector('.loading-text').textContent = message;
         loadingIndicator.classList.remove('hidden');
     }
 }
@@ -649,16 +367,172 @@ function hideLoading() {
     }
 }
 
-// Handle form submission
-function handleApplicationSubmit(event) {
-    event.preventDefault();
-    submitApplication();
+// Error handling
+function showError(message) {
+    // Create error notification
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-notification';
+    errorDiv.innerHTML = `
+        <div class="error-content">
+            <span class="error-icon">⚠️</span>
+            <span class="error-message">${message}</span>
+            <button class="error-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+
+    // Add to page
+    document.body.appendChild(errorDiv);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (errorDiv.parentElement) {
+            errorDiv.remove();
+        }
+    }, 5000);
 }
 
-// Export functions for global access (ensure they're available on window object)
-window.openSkillsModal = openSkillsModal;
-window.closeSkillsModal = closeSkillsModal;
-window.openApplyModal = openApplyModal;
-window.closeApplicationModal = closeApplicationModal;
-window.submitApplication = submitApplication;
-window.clearSearch = clearSearch;
+// Success message
+function showMessage(message) {
+    // Create success notification
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'success-notification';
+    messageDiv.innerHTML = `
+        <div class="success-content">
+            <span class="success-icon">✅</span>
+            <span class="success-message">${message}</span>
+            <button class="success-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+
+    // Add to page
+    document.body.appendChild(messageDiv);
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (messageDiv.parentElement) {
+            messageDiv.remove();
+        }
+    }, 3000);
+}
+
+// Modal handling
+function handleKeyPress(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
+}
+
+function closeModal() {
+    if (skillsModal) {
+        skillsModal.classList.add('hidden');
+    }
+    if (applicationModal) {
+        applicationModal.classList.add('hidden');
+    }
+}
+
+// Application form handling
+function handleApplicationSubmit(event) {
+    event.preventDefault();
+
+    // Get form data
+    const formData = new FormData(event.target);
+    const applicationData = Object.fromEntries(formData.entries());
+
+    console.log('Application submitted:', applicationData);
+
+    // Show success message
+    showMessage('Application submitted successfully!');
+
+    // Close modal
+    closeModal();
+
+    // Reset form
+    event.target.reset();
+}
+
+// Add some CSS for notifications
+const notificationStyles = `
+    .error-notification, .success-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        max-width: 400px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .error-notification {
+        background: #fee;
+        border: 1px solid #fcc;
+        color: #c33;
+    }
+
+    .success-notification {
+        background: #efe;
+        border: 1px solid #cfc;
+        color: #3c3;
+    }
+
+    .error-content, .success-content {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .error-close, .success-close {
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .error-close:hover, .success-close:hover {
+        opacity: 1;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    .job-skills {
+        margin: 12px 0;
+    }
+
+    .job-meta {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--color-border);
+    }
+`;
+
+// Add the notification styles to the page
+const styleSheet = document.createElement('style');
+styleSheet.textContent = notificationStyles;
+document.head.appendChild(styleSheet);
+
+// Health check on page load
+async function checkBackendHealth() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/health`);
+        if (response.ok) {
+            console.log('✅ Backend is healthy');
+        } else {
+            throw new Error('Backend health check failed');
+        }
+    } catch (error) {
+        console.warn('⚠️ Backend might be offline:', error.message);
+        showError('Backend service is currently unavailable. Please try again later.');
+    }
+}
+
+// Run health check on page load
+checkBackendHealth();
