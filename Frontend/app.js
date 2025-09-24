@@ -71,16 +71,6 @@ function renderJobs(jobs) {
   setJobsCount(jobs.length);
 }
 
-// Single fetch function with source support
-async function fetchJobs({ search = '', page = 1, limit = 50, source = '' } = {}) {
-  const qs = new URLSearchParams({ page, limit });
-  if (search) qs.set('search', search);
-  if (source) qs.set('source', source);
-  const res = await fetch(`${API_BASE_URL}/jobs?${qs.toString()}`, { headers: { 'Accept':'application/json' } });
-  if (!res.ok) throw new Error(`Failed to load jobs (${res.status})`);
-  const payload = await res.json();
-  return payload.jobs || [];
-}
 
 // Single load function that forwards selected platform
 async function loadJobs(search = '') {
