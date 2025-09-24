@@ -3,7 +3,7 @@
 // Replace the static jobsData with API calls
 
 // API Configuration
-const API_BASE_URL = 'https://localhost:5000/api'; // Replace with your Render URL
+const API_BASE_URL = 'http://127.0.0.1:5000/api'; // Replace with your Render URL
 // For local development, use: const API_BASE_URL = 'http://localhost:5000/api';
 
 // Global variables
