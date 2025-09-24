@@ -1,6 +1,6 @@
 {
   "name": "cybersecurity-jobs-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backend API for cybersecurity job scraping and aggregation",
   "main": "server.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "dev": "nodemon server.js",
     "build": "echo \"Build completed\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "playwright install chromium || echo \"Playwright install skipped\"",
     "seed": "node scripts/seed.js",
     "health": "node -e \"require('dotenv').config();require('http').get('http://127.0.0.1:'+ (process.env.PORT||5000) +'/api/health',res=>res.pipe(process.stdout))\""
   },
@@ -24,7 +23,9 @@
     "mongoose": "^8.0.0",
     "morgan": "^1.10.0",
     "node-cron": "^3.0.3",
-    "p-retry": "^7.0.0",
+    "p-retry": "^7.0.0"
+  },
+  "optionalDependencies": {
     "playwright": "^1.55.1",
     "playwright-extra": "^4.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
