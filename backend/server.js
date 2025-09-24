@@ -451,15 +451,12 @@ async function headlessScrapeLinkedIn() {
 
 //
 // 7) Aggregation: choose headless or legacy per source
-//
 const legacy = new LegacyScraper();
 
-// In server.js, keep aggregateScrape but allow an override
 async function aggregateScrape(sourceOverride = '') {
   LOG.info(`Scraping mode: ${USE_HEADLESS && playwrightExtra ? 'HEADLESS' : 'LEGACY'}`);
-  const src = String(sourceOverride || '').toLowerCase();
+  const src = String(sourceOverride || '').toLowerCase();  // 'linkedin' | 'indeed' | 'naukri' | ''
   const tasks = [];
-
   const want = (s) => !src || src === s;
 
   if (want('naukri')) tasks.push(legacy.scrapeNaukri());
@@ -468,51 +465,68 @@ async function aggregateScrape(sourceOverride = '') {
 
   const settled = await Promise.allSettled(tasks);
   const all = [];
-  for (const s of settled) if (s.status === 'fulfilled') all.push(...s.value);
+  for (const s of settled) {
+    if (s.status === 'fulfilled') all.push(...s.value);
+    else LOG.warn('Scraper failed:', s.reason?.message || s.reason);
+  }
   return dedupeJobs(all);
 }
-
-// Update POST /api/scrape to read ?source=
-app.post('/api/scrape', async (req, res) => {
-  try {
-    const source = (req.query.source || '').toLowerCase();
-    LOG.info('Manual scrape triggered', source ? `for ${source}` : '(all)');
-    const jobs = await aggregateScrape(source);
-    const result = await saveJobsToDatabase(jobs);
-    res.json({ message: 'Scraping completed', source: source || 'all', jobsFound: jobs.length, ...result });
-  } catch (e) {
-    LOG.error('POST /api/scrape error:', e.message);
-    res.status(500).json({ error: 'Scraping failed' });
-  }
-});
-
 
 //
 // 8) Persistence helpers
 //
-async function saveJobsToDatabase(jobs = []) {
+
+async function saveJobsToDatabase(jobs = [], opts = {}) {
+  const mode = (opts.mode || '').toLowerCase(); // '', 'upsert'
+  const source = (opts.source || '').toLowerCase();
   let saved = 0, updated = 0;
+
   for (const data of jobs) {
     try {
-      // Ensure required fields
-      if (!data.jobId) data.jobId = `${data.source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
       if (!data.title || !data.company) continue;
+      if (!data.source) data.source = source || data.source || 'unknown';
+      if (!data.jobId) {
+        data.jobId = `${data.source}_${(data.title||'').toLowerCase().slice(0,60).replace(/[^a-z0-9]+/g,'-')}_${(data.company||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`;
+      }
+      const now = new Date();
+      data.scrapedAt = now;
+      if (!data.postedDate) data.postedDate = now;
 
-      const existing = await Job.findOne({ jobId: data.jobId });
+      const match = mode === 'upsert'
+        ? { source: data.source,
+            title: new RegExp(`^${data.title.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}$`, 'i'),
+            company: new RegExp(`^${data.company.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}$`, 'i') }
+        : { jobId: data.jobId };
+
+      const existing = await Job.findOne(match);
+
       if (!existing) {
         await new Job(data).save();
         saved++;
       } else {
-        await Job.updateOne({ jobId: data.jobId }, data);
+        const updateDoc = {
+          location: data.location || existing.location,
+          salary: data.salary || existing.salary,
+          experience: data.experience || existing.experience,
+          description: data.description || existing.description,
+          skills: data.skills?.length ? Array.from(new Set([...(existing.skills || []), ...data.skills])) : existing.skills,
+          url: data.url || existing.url,
+          postedDate: data.postedDate || existing.postedDate,
+          scrapedAt: now,
+          isActive: true
+        };
+        await Job.updateOne({ _id: existing._id }, updateDoc);
         updated++;
       }
     } catch (e) {
       LOG.error('Save error:', e.message);
     }
   }
-  LOG.info(`Saved ${saved} new, updated ${updated} jobs`);
-  return { saved, updated };
+
+  LOG.info(`Saved ${saved} new, updated ${updated} jobs (mode=${mode || 'default'})`);
+  return { saved, updated, mode: mode || 'default' };
 }
+
 
 //
 // 9) API routes
@@ -590,15 +604,24 @@ app.get('/api/stats', async (req, res) => {
 
 app.post('/api/scrape', async (req, res) => {
   try {
-    LOG.info('Manual scrape triggered');
-    const jobs = await aggregateScrape();
-    const result = await saveJobsToDatabase(jobs);
-    res.json({ message: 'Scraping completed', jobsFound: jobs.length, ...result });
+    const source = (req.query.source || '').toLowerCase();       // linkedin | indeed | naukri | ''
+    const mode = (req.query.mode || '').toLowerCase();           // '', 'upsert', 'purge'
+    LOG.info('Manual scrape triggered', source ? `for ${source}` : '(all)', mode ? `mode=${mode}` : '');
+
+    if (mode === 'purge' && source) {
+      const del = await Job.deleteMany({ source });
+      LOG.warn(`Purged ${del.deletedCount} jobs for source=${source}`);
+    }
+
+    const jobs = await aggregateScrape(source);
+    const result = await saveJobsToDatabase(jobs, { mode, source });
+    res.json({ message: 'Scraping completed', source: source || 'all', mode: mode || 'default', jobsFound: jobs.length, ...result });
   } catch (e) {
     LOG.error('POST /api/scrape error:', e.message);
     res.status(500).json({ error: 'Scraping failed' });
   }
 });
+
 
 //
 // 10) Optional static serving (if you later build a frontend into backend/public)
