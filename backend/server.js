@@ -454,30 +454,38 @@ async function headlessScrapeLinkedIn() {
 //
 const legacy = new LegacyScraper();
 
-async function aggregateScrape() {
+// In server.js, keep aggregateScrape but allow an override
+async function aggregateScrape(sourceOverride = '') {
   LOG.info(`Scraping mode: ${USE_HEADLESS && playwrightExtra ? 'HEADLESS' : 'LEGACY'}`);
-
+  const src = String(sourceOverride || '').toLowerCase();
   const tasks = [];
 
-  // Naukri: legacy (HTTP) tends to work locally
-  tasks.push(legacy.scrapeNaukri());
+  const want = (s) => !src || src === s;
 
-  // Indeed
-  if (USE_HEADLESS && playwrightExtra) tasks.push(headlessScrapeIndeed());
-  else tasks.push(legacy.scrapeIndeed());
-
-  // LinkedIn
-  if (USE_HEADLESS && playwrightExtra) tasks.push(headlessScrapeLinkedIn());
-  else tasks.push(legacy.scrapeLinkedIn());
+  if (want('naukri')) tasks.push(legacy.scrapeNaukri());
+  if (want('indeed')) tasks.push(USE_HEADLESS && playwrightExtra ? headlessScrapeIndeed() : legacy.scrapeIndeed());
+  if (want('linkedin')) tasks.push(USE_HEADLESS && playwrightExtra ? headlessScrapeLinkedIn() : legacy.scrapeLinkedIn());
 
   const settled = await Promise.allSettled(tasks);
   const all = [];
-  for (const s of settled) {
-    if (s.status === 'fulfilled') all.push(...s.value);
-    else LOG.warn('Scraper failed:', s.reason?.message || s.reason);
-  }
+  for (const s of settled) if (s.status === 'fulfilled') all.push(...s.value);
   return dedupeJobs(all);
 }
+
+// Update POST /api/scrape to read ?source=
+app.post('/api/scrape', async (req, res) => {
+  try {
+    const source = (req.query.source || '').toLowerCase();
+    LOG.info('Manual scrape triggered', source ? `for ${source}` : '(all)');
+    const jobs = await aggregateScrape(source);
+    const result = await saveJobsToDatabase(jobs);
+    res.json({ message: 'Scraping completed', source: source || 'all', jobsFound: jobs.length, ...result });
+  } catch (e) {
+    LOG.error('POST /api/scrape error:', e.message);
+    res.status(500).json({ error: 'Scraping failed' });
+  }
+});
+
 
 //
 // 8) Persistence helpers
