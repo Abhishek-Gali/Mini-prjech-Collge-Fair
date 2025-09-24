@@ -1,3 +1,33 @@
+
+// Snippet to integrate (place near the top)
+const cors = require('cors');
+const mongoose = require('mongoose');
+const Job = require('./models/Job');
+const { dedupeJobs } = require('./utils/dedupe');
+const { scrapeNaukri } = require('./scrapers/naukri');
+const { scrapeIndeedWrapper } = require('./scrapers/indeed');
+const { scrapeLinkedInWrapper } = require('./scrapers/linkedin');
+
+// enable CORS for local UI
+app.use(cors({ origin: ['http://127.0.0.1:8080','http://localhost:8080'], credentials: false }));
+
+// Replace your scrapeAllJobs to aggregate from sources
+async function scrapeAllJobs() {
+  console.log('Starting comprehensive job scraping (mixed)…');
+  const [naukri, indeed, linkedin] = await Promise.allSettled([
+    scrapeNaukri(['cybersecurity','information security'], 2),
+    scrapeIndeedWrapper(),
+    scrapeLinkedInWrapper(),
+  ]);
+  const all = [
+    ...(naukri.status === 'fulfilled' ? naukri.value : []),
+    ...(indeed.status === 'fulfilled' ? indeed.value : []),
+    ...(linkedin.status === 'fulfilled' ? linkedin.value : []),
+  ];
+  return dedupeJobs(all);
+}
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
