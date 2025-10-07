@@ -1,0 +1,13 @@
+NEEDS INTERNER TO WORK 
+
+IN VS CODE TERMINAL 
+ 
+cd backend 
+
+npm run dev 
+
+FOR THE SERVING KEEP THE FIRST TERMINAL RUNNING AND USE IN THE NEW TERMINAL
+
+
+>> http-server ".\Frontend" -p 8080 -c-1
+>> Start-Process "http://127.0.0.1:8080/index.html"
